@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TravelGear | فروشگاه کیف و کوله</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <!-- Checkout Form -->
+
+  <body>
+    <div class="checkout-overlay" id="checkout-overlay">
+      <div class="checkout-form">
+        <h2>اطلاعات ثبت سفارش</h2>
+        <div class="order-summary">
+          <h3>خلاصه سفارش</h3>
+          <div id="order-summary-items"></div>
+
+          <div class="order-summary-total">
+            مبلغ کل:
+            <strong id="order-summary-total">0 تومان</strong>
+          </div>
+        </div>
+
+        <form id="order-form">
+          <label for="customer-name">نام و نام خانوادگی</label>
+          <input type="text" id="customer-name" required />
+
+          <label for="customer-phone">شماره تماس</label>
+          <input type="tel" id="customer-phone" required />
+
+          <label for="customer-address">آدرس تحویل سفارش</label>
+          <textarea id="customer-address" required></textarea>
+
+          <button type="submit">ثبت سفارش</button>
+        </form>
+      </div>
+    </div>
+    <header class="header">
+      <a href="#" class="logo">Travel<span>Gear</span></a>
+
+      <nav class="navbar">
+        <a href="#home">خانه</a>
+        <a href="#products">محصولات</a>
+        <a href="#about">درباره ما</a>
+        <a href="#contact">تماس با ما</a>
+      </nav>
+
+      <div class="filter-toolbar">
+        <div class="search-box">
+          <input
+            type="text"
+            id="product-search"
+            placeholder="نام محصول مورد نظر را جست‌وجو کنید..."
+          />
+        </div>
+
+        <div class="category-box">
+          <label for="category-filter">دسته‌بندی محصولات:</label>
+          <select id="category-filter">
+            <option value="all">همه محصولات</option>
+            <option value="backpack">کوله‌پشتی</option>
+            <option value="bag">کیف سفر</option>
+          </select>
+        </div>
+
+        <div class="filter-box">
+          <label for="price-filter">فیلتر بر اساس قیمت:</label>
+
+          <select id="price-filter">
+            <option value="all">همه محصولات</option>
+            <option value="3000000">کمتر از ۳ میلیون تومان</option>
+            <option value="4000000">کمتر از ۴ میلیون تومان</option>
+            <option value="5000000">کمتر از ۵ میلیون تومان</option>
+          </select>
+        </div>
+        <div class="sort-box">
+          <label for="sort-price">مرتب‌سازی قیمت:</label>
+          <select id="sort-price">
+            <option value="default">حالت پیش‌فرض</option>
+            <option value="low-to-high">ارزان‌ترین</option>
+            <option value="high-to-low">گران‌ترین</option>
+          </select>
+        </div>
+        <button id="reset-filters">پاک کردن فیلترها</button>
+        <p id="no-products" style="display: none">
+          محصولی با این مشخصات پیدا نشد!
+        </p>
+      </div>
+      <a href="#products" class="header-button">مشاهده محصولات</a>
+      <div class="cart" id="cart-toggle">
+        سبد خرید: <span id="cart-count">0</span>
+      </div>
+    </header>
+
+    <div class="cart-overlay" id="cart-overlay">
+      <div class="cart-drawer">
+        <div class="cart-drawer-header">
+          <h3>سبد خرید شما</h3>
+          <button id="close-cart">×</button>
+        </div>
+
+        <div id="cart-items"></div>
+        <div class="cart-summary">
+          <div class="cart-total">
+            <span>مبلغ کل سفارش:</span>
+            <strong>
+              <span id="total-price">0</span>
+              تومان
+            </strong>
+          </div>
+
+          <button id="checkout-button">ادامه خرید</button>
+        </div>
+      </div>
+    </div>
+    <main>
+      <section class="hero" id="home">
+        <div class="hero-content">
+          <span class="eyebrow">همراه همیشگی سفرهای تو</span>
+          <h1>برای هر سفر،<br />یک انتخاب خاص</h1>
+          <p>
+            مجموعه‌ای از کیف‌ها، کوله‌پشتی‌ها و چمدان‌های مدرن برای تجربه سفری
+            متفاوت.
+          </p>
+          <a href="#products" class="primary-button"> مشاهده محصولات </a>
+        </div>
+
+        <div class="hero-image">
+          <!-- تصویر اصلی بالای صفحه -->
+          <img src="images/hero.jpg" alt="TravelGear" />
+        </div>
+      </section>
+
+      <section class="products" id="products">
+        <div class="section-heading">
+          <span>منتخب فروشگاه</span>
+          <h2>محصولات پرفروش</h2>
+        </div>
+        <p id="products-count">۳ محصول پیدا شد</p>
+
+        <div class="product-grid">
+          <article class="product-card" data-category="backpack">
+            <!-- تصاویر محصولات -->
+            <img src="images/backpack1.jpg" alt="کوله پشتی اول" />
+            <h3>کوله پشتی روزمره</h3>
+            <p>طراحی مدرن و کاربردی</p>
+            <strong>۲,۴۵۰,۰۰۰ تومان</strong>
+            <button
+              class="add-to-cart"
+              data-name="کوله پشتی روزمره"
+              data-price="2450000"
+            >
+              افزودن به سبد خرید
+            </button>
+          </article>
+
+          <article class="product-card" data-category="backpack">
+            <img src="images/backpack2.jpg" alt="کوله پشتی دوم" />
+            <h3>کوله مسافرتی</h3>
+            <p>مناسب ماجراجویی و سفر</p>
+            <strong>۳,۸۰۰,۰۰۰ تومان</strong>
+            <button
+              class="add-to-cart"
+              data-name="کوله مسافرتی"
+              data-price="3800000"
+            >
+              افزودن به سبد خرید
+            </button>
+          </article>
+
+          <article class="product-card" data-category="bag">
+            <img src="images/bag.jpg" alt="کیف مسافرتی" />
+            <h3>کیف سفر</h3>
+            <p>ترکیب زیبایی و کیفیت</p>
+            <strong>۲,۹۰۰,۰۰۰ تومان</strong>
+            <button
+              class="add-to-cart"
+              data-name="کیف سفر"
+              data-price="2900000"
+            >
+              افزودن به سبد خرید
+            </button>
+          </article>
+        </div>
+      </section>
+
+      <section class="about" id="about">
+        <h2>سفر متفاوت از انتخاب درست شروع می‌شود.</h2>
+        <p>ما به دنبال ترکیب کیفیت، زیبایی و کاربرد هستیم.</p>
+      </section>
+    </main>
+
+    <footer id="contact">
+      <p>TravelGear © 2026 | تمامی حقوق محفوظ است.</p>
+    </footer>
+    <script src="script.js"></script>
+  </body>
+</html>
