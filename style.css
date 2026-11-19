@@ -245,6 +245,16 @@ footer {
     width: 100%;
     margin-top: 10px;
   }
+  .orders-filter {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .orders-filter select {
+    width: 100%;
+    box-sizing: border-box;
+  }
 }
 /* Shopping Cart */
 
@@ -1328,6 +1338,40 @@ footer {
 }
 
 .status-select:focus {
+  border-color: #a48652;
+  box-shadow: 0 0 0 3px rgba(164, 134, 82, 0.15);
+}
+.orders-filter {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 25px 0;
+}
+
+.orders-filter label {
+  color: #292720;
+  font-weight: bold;
+}
+
+.orders-filter select {
+  background: #f8f6f1;
+  color: #8a6d36;
+  border: 1px solid #d8c7a5;
+  border-radius: 8px;
+  padding: 10px 15px;
+  font-size: 14px;
+  font-family: inherit;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.orders-filter select:hover {
+  border-color: #a48652;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+.orders-filter select:focus {
   border-color: #a48652;
   box-shadow: 0 0 0 3px rgba(164, 134, 82, 0.15);
 }
