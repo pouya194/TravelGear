@@ -4,7 +4,33 @@ let orders = JSON.parse(localStorage.getItem("orders")) || [];
 let statusFilter = document.querySelector("#status-filter");
 document.querySelector("#orders-count").textContent =
   orders.length.toLocaleString("fa-IR");
+function updateOrderStats() {
+  let pendingOrders = orders.filter(function (order) {
+    return (order.status || "در انتظار بررسی") === "در انتظار بررسی";
+  }).length;
 
+  let preparingOrders = orders.filter(function (order) {
+    return order.status === "در حال آماده‌سازی";
+  }).length;
+
+  let shippedOrders = orders.filter(function (order) {
+    return order.status === "ارسال‌شده";
+  }).length;
+
+  document.querySelector("#all-orders-count").textContent =
+    orders.length.toLocaleString("fa-IR");
+
+  document.querySelector("#pending-orders-count").textContent =
+    pendingOrders.toLocaleString("fa-IR");
+
+  document.querySelector("#preparing-orders-count").textContent =
+    preparingOrders.toLocaleString("fa-IR");
+
+  document.querySelector("#shipped-orders-count").textContent =
+    shippedOrders.toLocaleString("fa-IR");
+}
+
+updateOrderStats();
 function displayOrders(filteredOrders) {
   ordersContainer.innerHTML = "";
 
