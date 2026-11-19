@@ -6,6 +6,7 @@ let priceFilter = document.querySelector("#price-filter");
 let sortPrice = document.querySelector("#sort-price");
 let categoryFilter = document.querySelector("#category-filter");
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let cartDrawer = document.querySelector(".cart-drawer");
 
 let cartCount = cart.reduce(function (total, item) {
   return total + item.quantity;
@@ -204,10 +205,15 @@ let closeCart = document.querySelector("#close-cart");
 
 cartToggle.addEventListener("click", function () {
   cartOverlay.classList.add("active");
+  cartDrawer.classList.add("active");
+  requestAnimationFrame(function () {
+    cartDrawer.classList.add("active");
+  });
   document.body.style.overflow = "hidden";
 });
 
 closeCart.addEventListener("click", function () {
+  cartDrawer.classList.remove("active");
   cartOverlay.classList.remove("active");
   document.body.style.overflow = "auto";
 });
@@ -261,6 +267,7 @@ orderForm.addEventListener("submit", function (event) {
     items: [...cart],
     total: calculateCartTotal(),
     date: new Date().toLocaleString("fa-IR"),
+    status: "در انتظار بررسی",
   };
   let orders = JSON.parse(localStorage.getItem("orders")) || [];
 
@@ -277,8 +284,13 @@ orderForm.addEventListener("submit", function (event) {
 
   totalPriceElement.textContent = totalPrice.toLocaleString("fa-IR");
   cartElement.textContent = cartCount.toLocaleString("fa-IR");
-  alert("اطلاعات سفارش با موفقیت ثبت شد!");
+  let successMessage = document.querySelector("#success-message");
 
+  successMessage.classList.add("show");
+
+  setTimeout(function () {
+    successMessage.classList.remove("show");
+  }, 3000);
   orderForm.reset();
   checkoutOverlay.classList.remove("active");
   document.body.style.overflow = "auto";

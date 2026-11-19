@@ -15,6 +15,9 @@ if (orders.length === 0) {
     ordersContainer.innerHTML += `
             <div class="order-card">
                 <h2>سفارش شماره ${order.id}</h2>
+                <p class="order-status">
+                  وضعیت سفارش: ${order.status || "در انتظار بررسی"}
+                </p>
                 <button class="delete-order" data-id="${order.id}">
                  حذف سفارش
                 </button>
