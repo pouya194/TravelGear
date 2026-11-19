@@ -18,6 +18,19 @@ if (orders.length === 0) {
                 <p class="order-status">
                   وضعیت سفارش: ${order.status || "در انتظار بررسی"}
                 </p>
+                <select class="status-select" data-id="${order.id}">
+  <option value="در انتظار بررسی" ${
+    (order.status || "در انتظار بررسی") === "در انتظار بررسی" ? "selected" : ""
+  }>در انتظار بررسی</option>
+
+  <option value="در حال آماده‌سازی" ${
+    order.status === "در حال آماده‌سازی" ? "selected" : ""
+  }>در حال آماده‌سازی</option>
+
+  <option value="ارسال‌شده" ${
+    order.status === "ارسال‌شده" ? "selected" : ""
+  }>ارسال‌شده</option>
+</select>
                 <button class="delete-order" data-id="${order.id}">
                  حذف سفارش
                 </button>
@@ -69,5 +82,25 @@ deleteButtons.forEach(function (button) {
     let orderId = button.dataset.id;
 
     deleteOrder(orderId);
+  });
+});
+let statusSelects = document.querySelectorAll(".status-select");
+
+statusSelects.forEach(function (select) {
+  select.addEventListener("change", function () {
+    let orderId = Number(select.dataset.id);
+    let newStatus = select.value;
+
+    orders = orders.map(function (order) {
+      if (order.id === orderId) {
+        order.status = newStatus;
+      }
+
+      return order;
+    });
+
+    localStorage.setItem("orders", JSON.stringify(orders));
+
+    location.reload();
   });
 });

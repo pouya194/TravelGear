@@ -1309,3 +1309,25 @@ footer {
   font-weight: bold;
   margin: 12px 0;
 }
+.status-select {
+  background: #f8f6f1;
+  color: #8a6d36;
+  border: 1px solid #d8c7a5;
+  border-radius: 8px;
+  padding: 9px 15px;
+  font-size: 14px;
+  font-family: inherit;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.status-select:hover {
+  border-color: #a48652;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+.status-select:focus {
+  border-color: #a48652;
+  box-shadow: 0 0 0 3px rgba(164, 134, 82, 0.15);
+}
