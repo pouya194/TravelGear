@@ -1443,3 +1443,29 @@ footer {
     font-size: 22px;
   }
 }
+.orders-search {
+  margin: 25px 0 15px;
+}
+
+.orders-search input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 13px 16px;
+  background: #f8f6f1;
+  color: #292720;
+  border: 1px solid #d8c7a5;
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.orders-search input:focus {
+  border-color: #a48652;
+  box-shadow: 0 0 0 3px rgba(164, 134, 82, 0.15);
+}
+
+.orders-search input::placeholder {
+  color: #999080;
+}

@@ -2,6 +2,7 @@ let ordersContainer = document.querySelector("#orders-container");
 
 let orders = JSON.parse(localStorage.getItem("orders")) || [];
 let statusFilter = document.querySelector("#status-filter");
+let orderSearch = document.querySelector("#order-search");
 document.querySelector("#orders-count").textContent =
   orders.length.toLocaleString("fa-IR");
 function updateOrderStats() {
@@ -149,18 +150,25 @@ function attachOrderEvents() {
     });
   });
 }
-statusFilter.addEventListener("change", function () {
+function filterOrders() {
   let selectedStatus = statusFilter.value;
+  let searchValue = orderSearch.value.trim().toLowerCase();
 
-  let filteredOrders;
+  let filteredOrders = orders.filter(function (order) {
+    let matchesStatus =
+      selectedStatus === "all" ||
+      (order.status || "در انتظار بررسی") === selectedStatus;
 
-  if (selectedStatus === "all") {
-    filteredOrders = orders;
-  } else {
-    filteredOrders = orders.filter(function (order) {
-      return (order.status || "در انتظار بررسی") === selectedStatus;
-    });
-  }
+    let matchesSearch =
+      order.customerName.toLowerCase().includes(searchValue) ||
+      String(order.id).includes(searchValue);
+
+    return matchesStatus && matchesSearch;
+  });
 
   displayOrders(filteredOrders);
-});
+}
+
+statusFilter.addEventListener("change", filterOrders);
+
+orderSearch.addEventListener("input", filterOrders);
