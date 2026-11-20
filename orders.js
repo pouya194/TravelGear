@@ -1,10 +1,10 @@
 let ordersContainer = document.querySelector("#orders-container");
 
 let orders = JSON.parse(localStorage.getItem("orders")) || [];
+
 let statusFilter = document.querySelector("#status-filter");
 let orderSearch = document.querySelector("#order-search");
-document.querySelector("#orders-count").textContent =
-  orders.length.toLocaleString("fa-IR");
+
 function updateOrderStats() {
   let pendingOrders = orders.filter(function (order) {
     return (order.status || "در انتظار بررسی") === "در انتظار بررسی";
@@ -17,6 +17,9 @@ function updateOrderStats() {
   let shippedOrders = orders.filter(function (order) {
     return order.status === "ارسال‌شده";
   }).length;
+
+  document.querySelector("#orders-count").textContent =
+    orders.length.toLocaleString("fa-IR");
 
   document.querySelector("#all-orders-count").textContent =
     orders.length.toLocaleString("fa-IR");
@@ -31,9 +34,17 @@ function updateOrderStats() {
     shippedOrders.toLocaleString("fa-IR");
 }
 
-updateOrderStats();
 function displayOrders(filteredOrders) {
   ordersContainer.innerHTML = "";
+
+  if (filteredOrders.length === 0) {
+    ordersContainer.innerHTML = `
+      <div class="empty-orders">
+        <p>سفارشی با این مشخصات پیدا نشد.</p>
+      </div>
+    `;
+    return;
+  }
 
   filteredOrders.forEach(function (order) {
     ordersContainer.innerHTML += `
@@ -59,12 +70,11 @@ function displayOrders(filteredOrders) {
             order.status === "ارسال‌شده" ? "selected" : ""
           }>ارسال‌شده</option>
         </select>
-<a
-  href="order-details.html?id=${order.id}"
-  class="view-order"
->
-  مشاهده جزئیات
-</a>
+
+        <a href="order-details.html?id=${order.id}" class="view-order">
+          مشاهده جزئیات
+        </a>
+
         <button class="delete-order" data-id="${order.id}">
           حذف سفارش
         </button>
@@ -96,41 +106,33 @@ function displayOrders(filteredOrders) {
       </div>
     `;
   });
-}
 
-if (orders.length === 0) {
-  ordersContainer.innerHTML = `
-    <div class="empty-orders">
-      <p>هنوز هیچ سفارشی ثبت نکرده‌اید.</p>
-      <a href="index.html">بازگشت به فروشگاه</a>
-    </div>
-  `;
-} else {
-  displayOrders(orders);
+  attachOrderEvents();
 }
-attachOrderEvents();
 
 function deleteOrder(orderId) {
   let confirmDelete = confirm("آیا از حذف این سفارش مطمئن هستید؟");
 
-  if (confirmDelete) {
-    orders = orders.filter(function (order) {
-      return order.id !== Number(orderId);
-    });
-
-    localStorage.setItem("orders", JSON.stringify(orders));
-
-    location.reload();
+  if (!confirmDelete) {
+    return;
   }
+
+  orders = orders.filter(function (order) {
+    return Number(order.id) !== Number(orderId);
+  });
+
+  localStorage.setItem("orders", JSON.stringify(orders));
+
+  updateOrderStats();
+  filterOrders();
 }
+
 function attachOrderEvents() {
   let deleteButtons = document.querySelectorAll(".delete-order");
 
   deleteButtons.forEach(function (button) {
     button.addEventListener("click", function () {
-      let orderId = button.dataset.id;
-
-      deleteOrder(orderId);
+      deleteOrder(button.dataset.id);
     });
   });
 
@@ -142,7 +144,7 @@ function attachOrderEvents() {
       let newStatus = select.value;
 
       orders = orders.map(function (order) {
-        if (order.id === orderId) {
+        if (Number(order.id) === orderId) {
           order.status = newStatus;
         }
 
@@ -151,10 +153,12 @@ function attachOrderEvents() {
 
       localStorage.setItem("orders", JSON.stringify(orders));
 
-      location.reload();
+      updateOrderStats();
+      filterOrders();
     });
   });
 }
+
 function filterOrders() {
   let selectedStatus = statusFilter.value;
   let searchValue = orderSearch.value.trim().toLowerCase();
@@ -165,8 +169,9 @@ function filterOrders() {
       (order.status || "در انتظار بررسی") === selectedStatus;
 
     let matchesSearch =
-      order.customerName.toLowerCase().includes(searchValue) ||
-      String(order.id).includes(searchValue);
+      String(order.customerName || "")
+        .toLowerCase()
+        .includes(searchValue) || String(order.id).includes(searchValue);
 
     return matchesStatus && matchesSearch;
   });
@@ -174,6 +179,8 @@ function filterOrders() {
   displayOrders(filteredOrders);
 }
 
-statusFilter.addEventListener("change", filterOrders);
+updateOrderStats();
+filterOrders();
 
+statusFilter.addEventListener("change", filterOrders);
 orderSearch.addEventListener("input", filterOrders);
