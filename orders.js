@@ -59,7 +59,12 @@ function displayOrders(filteredOrders) {
             order.status === "ارسال‌شده" ? "selected" : ""
           }>ارسال‌شده</option>
         </select>
-
+<a
+  href="order-details.html?id=${order.id}"
+  class="view-order"
+>
+  مشاهده جزئیات
+</a>
         <button class="delete-order" data-id="${order.id}">
           حذف سفارش
         </button>
